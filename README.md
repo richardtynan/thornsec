@@ -8,7 +8,7 @@ Problem: "I hunt sysadmins" - https://theintercept.com/2014/03/20/inside-nsa-sec
 
 Solution: "Sysadmins of the world unite!" - https://www.youtube.com/watch?v=hzhtGvSflEk
 
-# Primary Platform Goals:
+# Primary Platform Goals
 
 1. help systems and networks be more secure than default;
 2. complete operational transparency;
@@ -16,7 +16,7 @@ Solution: "Sysadmins of the world unite!" - https://www.youtube.com/watch?v=hzht
 4. minimal pre-requisites;
 5. avenue for learning with others.
 
-# Next Steps:
+# Next Steps
 
 Explore more of the [rationale](doc/rationale.md) behind ThornSec.
 
