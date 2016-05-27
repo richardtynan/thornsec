@@ -2,11 +2,11 @@
 
 Not orgsec. Not infosec. Not opsec. Hopefully just a small thorn in the side of your adversaries.
 
-@ThornSec - https://twitter.com/ThornSec
-
 Problem: "I hunt sysadmins" - https://theintercept.com/2014/03/20/inside-nsa-secret-efforts-hunt-hack-system-administrators/
 
 Solution: "Sysadmins of the world unite!" - https://www.youtube.com/watch?v=hzhtGvSflEk
+
+@ThornSec - https://twitter.com/ThornSec
 
 # Primary Platform Goals
 
