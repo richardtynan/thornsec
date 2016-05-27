@@ -3,28 +3,38 @@ Not orgsec. Not infosec. Not opsec. Hopefully just a small thorn in the side of 
 
 @ThornSec - https://twitter.com/ThornSec
 
-# Problem: 
+# Problem 
 
 "I hunt sysadmins" - https://theintercept.com/2014/03/20/inside-nsa-secret-efforts-hunt-hack-system-administrators/
 
-# Solution: 
+# Solution 
 
 "Sysadmins of the world unite!" - https://www.youtube.com/watch?v=hzhtGvSflEk
 
-2.  Organisations switching to in-house systems requires configuration and maintenance to be secure;
-3.  Funding bodies giving money to organisation but no tech resources for their internal systems;
-4.  Senior management not knowing about the state of their tech resources;
-5.  Information on how to prioritise resources;
-6.  Lack of visibility into systems and networks;
-7.  Lack of effective preventative measures;
-8.  Lack of compartmentalisation;
-9.  Lack of secure and off site backups;
-10. Lack of resiliency.
+# Primary Platform Goals:
 
+1. visibility into systems and networks;
+2. effective preventative measures;
+3. compartmentalisation;
+4. transparency;
+5. learning.
+
+# Secondary Platform Goals:
+
+Organisations are switching to in-house systems but this requires proper configuration and maintenance to be secure. Funding bodies are giving money to organisations but no tech resources for their internal systems. Senior management often do not know about the state of security of their tech resources - as long as systems are functional, they are not aware of a problem. Even if they are aware of issues, there is not enough information to determine how best to prioritise resources. 
+
+1. Platform to make systems slightly more secure than default;
+2. Platform to provide audit of all systems based on the internal configuration, internal live system operation and externally visible operation of the system;
+3. Platform to automatically remedy any failed tests, if possible.
+
+Discussions about sec
+
+
+Community
 
 
 # Goals
-1. Platform to make systems slightly more secure than default.
+
 2. Platform to translate articulation and discussion of complex security debates into concrete 
       1) audit test for the problem, and possibly; 
       2) way to automatically remedy it.
