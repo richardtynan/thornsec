@@ -1,12 +1,6 @@
 package core.iface;
 
-public interface INetworkData {
-
-	public void read(String data);
-
-	public String getLabel();
-
-	// components
+public interface INetworkData extends IData {
 
 	public String[] getServerLabels();
 
@@ -23,6 +17,6 @@ public interface INetworkData {
 	public String getServerIP(String server);
 
 	public String getServerPort(String server);
-
+	
 	public String getServerUpdate(String server);
 }

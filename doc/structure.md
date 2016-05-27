@@ -12,7 +12,5 @@
 
 ## Child Unit
 
-# Netwoork Data
+# Network Data
 
-# No Use
-Not for use by governments of United Kingdom, United States and Israel.
