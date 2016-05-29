@@ -8,7 +8,7 @@ A compund profile is a collection of unit tests that may trigger an action if on
 
 # Singleton 
 
-A singleton is something for which only one instance should be available globally, per network or per server. For example, iptables is a singleton as many profiles may need to add configuration elements but only one test needs to be performed. The DNS profile is a good example of a profile where there is only one per network. A singleton cannot be created directly but through Class accessors that create the singleton if one doesnt already exist. 
+A singleton is something for which only one instance should be available globally, per network or per server. For example, iptables is a device singleton as many profiles may need to add configuration elements but only one test needs to be performed. The DNS profile is a good example of a profile where there is only one per network. A singleton cannot be created directly but through Class accessors that create the singleton if one doesnt already exist. 
 
 ## Network
 
@@ -22,7 +22,13 @@ The building blocks of the system are Unit tests. They are self contained and ca
 
 ## Simple
 
-## Child Unit
+A simple unit follows a very basic principle: run command A and if the output matches the value provided, the test either passes or fails. this is two tests due to the fact that in can be easier to audit for failure text when multiple possible outputs may indicate the test has passed. 
 
-# Network Data
+## Child
+
+A child unit test attaches to a parent compound unit test. 
+
+# Model
+
+
 
