@@ -1,6 +1,6 @@
 # Data Structure
 
-# Orgsec Data
+# ThornSec Data
 
 # Network Data
 
