@@ -19,9 +19,7 @@ public class Test {
 		OrgsecModel model = new OrgsecModel();
 		model.setData(data);
 
-		model.getNetworkModel("home").dryrunServerBlock("router", System.out, System.in);
-		//model.getNetworkModel("pi").auditServerBlock("router", System.out, System.in);
-
+		model.getNetworkModel("home").auditServerBlock("router", System.out, System.in);
 	}
 
 }

@@ -123,7 +123,7 @@ public class NetworkModel {
 
 	public void auditServerBlock(String server, OutputStream out, InputStream in) {
 		String line = getAction("audit", server);
-		System.out.println(line);
+		//System.out.println(line);
 		ManageExec exec = new ManageExec("testlogin", data.getServerUser(server), data.getServerIP(server),
 				data.getServerPort(server), line, out);
 		exec.manageBlock();
@@ -131,7 +131,7 @@ public class NetworkModel {
 
 	public void dryrunServerBlock(String server, OutputStream out, InputStream in) {
 		String line = getAction("dryrun", server);
-		System.out.println(line);
+		//System.out.println(line);
 		ManageExec exec = new ManageExec("testlogin", data.getServerUser(server), data.getServerIP(server),
 				data.getServerPort(server), line, out);
 		exec.manageBlock();
@@ -139,6 +139,7 @@ public class NetworkModel {
 
 	public void configServerBlock(String server, OutputStream out, InputStream in) {
 		String line = getAction("config", server);
+		System.out.println(line);
 		ManageExec exec = new ManageExec("testlogin", data.getServerUser(server), data.getServerIP(server),
 				data.getServerPort(server), line, out);
 		exec.manageBlock();

@@ -72,6 +72,9 @@ public abstract class ASingleUnit implements IUnit {
 		dryrunString += this.getDryRun();
 		dryrunString += "\t" + "((fail++))\n";
 		dryrunString += "\t" + "fail_string=\"$fail_string\n" + getLabel() + "\"\n";
+		dryrunString += "else\n";
+		dryrunString += "\techo pass " + getLabel() + "\n";
+		dryrunString += "\t" + "((pass++))\n";
 		dryrunString += "fi ;\n";
 		return dryrunString;
 	}

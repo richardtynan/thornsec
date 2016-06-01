@@ -6,9 +6,9 @@ import core.iface.INetworkData;
 import core.iface.IProfile;
 import core.profile.AStructuredProfile;
 
-public class Server extends AStructuredProfile {
+public class Service extends AStructuredProfile {
 
-	public Server() {
+	public Service() {
 		super("server");
 	}
 
