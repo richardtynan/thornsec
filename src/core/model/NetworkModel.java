@@ -154,7 +154,7 @@ public class NetworkModel {
 		if (data.getServerUpdate(server).equals("true")) {
 			configcmd = "sudo apt-get --assume-yes upgrade;";
 		} else {
-			configcmd = "echo \"Auto update not set\";";
+			configcmd = "echo \"$out\";";
 		}
 		serverRules.insertElementAt(new SimpleUnit("update", "base_sudo_richie", configcmd,
 				"sudo apt-get update > /dev/null; sudo apt-get --assume-no upgrade | grep \"0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\";",

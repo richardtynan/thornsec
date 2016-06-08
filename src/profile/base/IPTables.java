@@ -19,7 +19,7 @@ public class IPTables extends AProfile {
 	public Vector<IProfile> getUnits(String server, INetworkData data) {
 		Vector<IProfile> vec = new Vector<IProfile>();
 		vec.addElement(new InstalledUnit("iptables", "iptables"));
-		vec.addElement(new InstalledUnit("xsltproc", "xsltproc"));
+		vec.addElement(new InstalledUnit("iptables_xsltproc", "xsltproc"));
 		vec.addElement(new DirUnit("iptables_dir", "proceed", "/etc/iptables"));
 		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()));
 
