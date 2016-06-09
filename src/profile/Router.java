@@ -6,8 +6,11 @@ import core.iface.INetworkData;
 import core.iface.IProfile;
 import core.profile.AProfile;
 import core.unit.SimpleUnit;
+import profile.router.DHCP;
+import profile.router.DNS;
+import profile.router.PKI;
+import profile.router.Subnets;
 import singleton.IPTablesConf;
-import singleton.NetConf;
 
 public class Router extends AProfile {
 
@@ -24,41 +27,24 @@ public class Router extends AProfile {
 				"grep -v \"#\" /etc/sysctl.conf | grep ip_forward;", "net.ipv4.ip_forward=1", "pass"));
 
 		// NAT
-		IPTablesConf.getInstance(server, data.getLabel()).addNatPostrouting("-j MASQUERADE");
+		vec.addElement(
+				IPTablesConf.getInstance(server, data.getLabel()).addNatPostrouting("router_nat", "-j MASQUERADE"));
 
-		// subnetting
-		String[] devs = data.getDeviceLabels();
-		int start = 100;
-		for (int i = 0; i < devs.length; i++) {
-			int subnet = start + i;
+		// DHCP
+		DHCP dhcp = new DHCP();
+		vec.addAll(dhcp.getUnits(server, data));
 
-			vec.addElement(NetConf.getInstance(server, data.getLabel()).addStaticIface(devs[i] + "_iface",
-					Router.getIntIface(server, data),
-					"address " + Router.getNet(server, data) + "." + subnet + ".1" + "\nnetmask 255.255.255.0"));
+		// DNS
+		DNS dns = new DNS();
+		vec.addAll(dns.getUnits(server, data));
 
-			/*
-			IPTablesConf.getInstance(server, data.getLabel())
-					.addFilterForward("-s " + Router.getNet(server, data) + "." + subnet + ".2 -j " + devs[i]);
-			IPTablesConf.getInstance(server, data.getLabel())
-					.addFilterForward("-d " + Router.getNet(server, data) + "." + subnet + ".2 -j " + devs[i]);
+		// PKI
+		PKI pki = new PKI();
+		vec.addAll(pki.getUnits(server, data));
 
-			IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i], "-j DROP");
-			IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i],
-					"-j LOG --log-prefix \\\"iptfwd-" + devs[i] + ": \\\"");
-			IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i],
-					"-i " + Router.getIntIface(server, data) + " -o " + Router.getIntIface(server, data) + " -s "
-							+ Router.getNet(server, data) + "." + subnet + ".2 -j ACCEPT");
-			IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i],
-					"-i " + Router.getIntIface(server, data) + " -o " + Router.getIntIface(server, data) + " -d "
-							+ Router.getNet(server, data) + "." + subnet + ".2 -j ACCEPT");
-			IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i],
-					"-i " + Router.getIntIface(server, data) + " -o " + Router.getExtIface(server, data) + " -s "
-							+ Router.getNet(server, data) + "." + subnet + ".2 -j ACCEPT");
-			IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i],
-					"-i " + Router.getExtIface(server, data) + " -o " + Router.getIntIface(server, data) + " -d "
-							+ Router.getNet(server, data) + "." + subnet + ".2 -j ACCEPT");
-			*/
-		}
+		// Subnets
+		Subnets subnets = new Subnets();
+		vec.addAll(subnets.getUnits(server, data));
 
 		return vec;
 	}

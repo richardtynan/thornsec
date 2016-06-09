@@ -13,24 +13,33 @@ public class IPTablesConf extends AProfile {
 
 	Hashtable<String, Hashtable<String, Vector<String>>> tables;
 
-	public void addFilterInput(String rule) {
-		this.getChain("filter", "INPUT").add(rule);
+	public SimpleUnit addFilterInput(String name, String rule) {
+		return add(name, "filter", "INPUT", rule);
 	}
 
-	public void addFilterForward(String rule) {
-		this.getChain("filter", "FORWARD").add(rule);
+	public SimpleUnit addFilterForward(String name, String rule) {
+		return add(name, "filter", "FORWARD", rule);
 	}
 
-	public void addFilterOutput(String rule) {
-		this.getChain("filter", "OUTPUT").add(rule);
+	public SimpleUnit addFilterOutput(String name, String rule) {
+		return add(name, "filter", "OUTPUT", rule);
 	}
 
-	public void addFilter(String chain, String rule) {
-		this.getChain("filter", chain).add(rule);
+	public SimpleUnit addFilter(String name, String chain, String rule) {
+		return add(name, "filter", chain, rule);
 	}
 
-	public void addNatPostrouting(String rule) {
-		this.getChain("nat", "POSTROUTING").add(rule);
+	public SimpleUnit addNatPostrouting(String name, String rule) {
+		return add(name, "nat", "POSTROUTING", rule);
+	}
+
+	private SimpleUnit add(String name, String table, String chain, String rule) {
+		this.getChain(table, chain).add(rule);
+		return new SimpleUnit(name, "proceed", "echo \\\"handled by singleton\\\";",
+				"cat /etc/iptables/iptables.conf | iptables-xml | " + "xsltproc --stringparam table " + table
+						+ " /etc/iptables/iptables.xslt - | " + "grep " + chain + " | grep \""
+						+ rule.replaceAll("-", "\\\\-") + "\"",
+				"-A " + chain + " " + rule, "pass");
 	}
 
 	private String getPersistent() {
@@ -100,12 +109,12 @@ public class IPTablesConf extends AProfile {
 	public boolean isSingleton() {
 		return true;
 	}
-	
+
 	private IPTablesConf() {
 		super("iptables_conf");
 		this.tables = new Hashtable<>();
 	}
-	
+
 	public static IPTablesConf getInstance(String server, String network) {
 		if (networks == null) {
 			networks = new Hashtable<>();
@@ -124,5 +133,5 @@ public class IPTablesConf extends AProfile {
 	}
 
 	private static Hashtable<String, Hashtable<String, IPTablesConf>> networks;
-	
+
 }

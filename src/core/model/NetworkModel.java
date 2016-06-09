@@ -123,7 +123,7 @@ public class NetworkModel {
 
 	public void auditServerBlock(String server, OutputStream out, InputStream in) {
 		String line = getAction("audit", server);
-		//System.out.println(line);
+		System.out.println(line);
 		ManageExec exec = new ManageExec("testlogin", data.getServerUser(server), data.getServerIP(server),
 				data.getServerPort(server), line, out);
 		exec.manageBlock();
@@ -156,7 +156,7 @@ public class NetworkModel {
 		} else {
 			configcmd = "echo \"$out\";";
 		}
-		serverRules.insertElementAt(new SimpleUnit("update", "base_sudo_richie", configcmd,
+		serverRules.insertElementAt(new SimpleUnit("update", "proceed", configcmd,
 				"sudo apt-get update > /dev/null; sudo apt-get --assume-no upgrade | grep \"0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\";",
 				"0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.", "pass"), 0);
 		

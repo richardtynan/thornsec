@@ -49,10 +49,10 @@ public class PKI extends AStructuredProfile {
 	public Vector<IProfile> getIpt(String server, INetworkData data) {
 		Vector<IProfile> vec = new Vector<IProfile>();
 
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterInput("-i " + Router.getIntIface(server, data) + " -p tcp --dport 80 -j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterOutput("-o " + Router.getIntIface(server, data) + " -p tcp --sport 80 -j ACCEPT");
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterInput("pki_ipt_in", "-i " + Router.getIntIface(server, data) + " -p tcp --dport 80 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterOutput("pki_ipt_out", "-o " + Router.getIntIface(server, data) + " -p tcp --sport 80 -j ACCEPT"));
 
 		return vec;
 	}

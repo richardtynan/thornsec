@@ -11,7 +11,7 @@ public class DeviceData extends AData {
 	}
 	
 	public void read(JSONObject config) {
-		mac = (String) config.get("mac");
+		mac = (String) config.get("wired");
 	}
 
 	public String getMac() {

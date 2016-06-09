@@ -106,32 +106,19 @@ public class DNS extends AStructuredProfile {
 
 	public Vector<IProfile> getIpt(String server, INetworkData data) {
 		Vector<IProfile> vec = new Vector<IProfile>();
+		
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterInput("dns_ipt_in", "-i " + Router.getIntIface(server, data) + " -p udp --dport 53 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterOutput("dns_ipt_out", "-o " + Router.getIntIface(server, data) + " -p udp --sport 53 -j ACCEPT"));
 
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterInput("-i " + Router.getIntIface(server, data) + " -p udp --dport 53 -j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterOutput("-o " + Router.getIntIface(server, data) + " -p udp --sport 53 -j ACCEPT");
-
-		IPTablesConf.getInstance(server, data.getLabel()).addFilter("dnsd", "-j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel()).addFilter("dnsd", "-j LOG --log-prefix \\\"ipt-dnsd: \\\"");
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterInput("-i " + Router.getExtIface(server, data) + " -p udp --sport 53 -j dnsd");
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterOutput("-o " + Router.getExtIface(server, data) + " -p udp --dport 53 -j dnsd");
-
-		IPTablesConf.getInstance(server, data.getLabel()).addFilter("data",
-				"-i " + Router.getExtIface(server, data) + " -s 194.168.4.100 -p udp --sport 53 -j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel()).addFilter("dnsd",
-				"-o " + Router.getExtIface(server, data) + " -d 194.168.4.100 -p udp --dport 53 -j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel()).addFilter("dnsd",
-				"-i " + Router.getExtIface(server, data) + " -s 194.168.8.100 -p udp --sport 53 -j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel()).addFilter("dnsd",
-				"-o " + Router.getExtIface(server, data) + " -d 194.168.8.100 -p udp --dport 53 -j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel()).addFilter("dnsd",
-				"-i " + Router.getExtIface(server, data) + " -s 8.8.8.8 -p udp --sport 53 -j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel()).addFilter("dnsd",
-				"-o " + Router.getExtIface(server, data) + " -d 8.8.8.8 -p udp --dport 53 -j ACCEPT");
-
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter("dns_ext", "dnsd", "-j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter("dns_ext_log", "dnsd", "-j LOG --log-prefix \\\"ipt-dnsd: \\\""));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterInput("dns_ext_in", "-i " + Router.getExtIface(server, data) + " -p udp --sport 53 -j dnsd"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterOutput("dns_ext_out", "-o " + Router.getExtIface(server, data) + " -p udp --dport 53 -j dnsd"));
+		
 		return vec;
 	}
 

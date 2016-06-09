@@ -85,10 +85,10 @@ public class SSH extends AStructuredProfile {
 
 	public Vector<IProfile> getIpt(String server, INetworkData data) {
 		Vector<IProfile> vec = new Vector<IProfile>();
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterInput("-p tcp --dport " + Base.getPort(server, data) + " -j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterOutput("-p tcp --sport " + Base.getPort(server, data) + " -j ACCEPT");
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterInput("ssh_ipt_in", "-p tcp --dport " + Base.getPort(server, data) + " -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterOutput("ssh_ipt_out", "-p tcp --sport " + Base.getPort(server, data) + " -j ACCEPT"));
 		return vec;
 	}
 

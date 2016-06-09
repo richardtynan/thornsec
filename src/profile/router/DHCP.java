@@ -69,10 +69,10 @@ public class DHCP extends AStructuredProfile {
 
 	public Vector<IProfile> getIpt(String server, INetworkData data) {
 		Vector<IProfile> vec = new Vector<IProfile>();
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterInput("-i " + Router.getIntIface(server, data) + " -p udp --dport 67 -j ACCEPT");
-		IPTablesConf.getInstance(server, data.getLabel())
-				.addFilterOutput("-o " + Router.getIntIface(server, data) + " -p udp --sport 67 -j ACCEPT");
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterInput("dhcp_ipt_in", "-i " + Router.getIntIface(server, data) + " -p udp --dport 67 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterOutput("dhcp_ipt_in", "-o " + Router.getIntIface(server, data) + " -p udp --sport 67 -j ACCEPT"));
 		return vec;
 	}
 
