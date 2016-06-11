@@ -2,11 +2,21 @@
 
 Not orgsec. Not infosec. Not opsec. Hopefully just a small thorn in the side of your adversaries.
 
-Problem: "I hunt sysadmins" - https://theintercept.com/2014/03/20/inside-nsa-secret-efforts-hunt-hack-system-administrators/
+Problem: ["I hunt sysadmins"](https://theintercept.com/2014/03/20/inside-nsa-secret-efforts-hunt-hack-system-administrators/)
 
-Solution: "Sysadmins of the world unite!" - https://www.youtube.com/watch?v=hzhtGvSflEk
+Solution: ["Sysadmins of the world unite!"](https://www.youtube.com/watch?v=hzhtGvSflEk)
 
 @ThornSec - https://twitter.com/ThornSec
+
+# Want to contribute?
+
+1. What command should a sysadmin run to check if there is an issue?
+2. What should the ouput of that command be if the test is passed or failed?
+3. Bonus points: what command should a sysadmin run to resolve the issue?
+
+If you can answer the first 2 questions then get in touch or write the appropriate test for inclusion into the codebase. If you can answer question 3 thats even better!
+
+Learn more about the [structure](doc/structure.md) behind ThornSec so you can contribute.
 
 # Primary Platform Goals
 
@@ -21,16 +31,6 @@ Solution: "Sysadmins of the world unite!" - https://www.youtube.com/watch?v=hzht
 Explore more of the [rationale](doc/rationale.md) behind ThornSec.
 
 Learn how to use the [system](doc/user.md) to conduct audits and to configure systems automatically.
-
-# Want to contribute?
-
-1. What command should a sysadmin run to check if there is an issue?
-2. What should the ouput of that command be if the test is passed or failed?
-3. Bonus points: what command should a sysadmin run to resolve the issue?
-
-If you can answer the first 2 questions then get in touch or write the appropriate test for inclusion into the codebase. If you can answer question 3 thats even better!
-
-Learn more about the [structure](doc/structure.md) behind ThornSec so you can contribute.
 
 # ThornSec is not ...
 
