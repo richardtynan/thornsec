@@ -34,6 +34,7 @@ public class IPTablesConf extends AProfile {
 	}
 
 	private SimpleUnit add(String name, String table, String chain, String rule) {
+		System.out.println("add " + name + " " + table + " " + chain + " " + rule);
 		this.getChain(table, chain).add(rule);
 		return new SimpleUnit(name, "proceed", "echo \\\"handled by singleton\\\";",
 				"cat /etc/iptables/iptables.conf | iptables-xml | " + "xsltproc --stringparam table " + table
@@ -79,7 +80,7 @@ public class IPTablesConf extends AProfile {
 				policy += ":" + val + " - [0:0]\n";
 			Vector<String> chain = this.getChain("filter", val);
 			for (int j = 0; j < chain.size(); j++) {
-				filter += "-A " + val + " " + chain.elementAt(chain.size() - 1 - j) + "\n";
+				filter += "-A " + val + " " + chain.elementAt(chain.size() - j - 1) + "\n";
 			}
 		}
 		return policy + filter;

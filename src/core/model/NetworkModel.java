@@ -38,18 +38,18 @@ public class NetworkModel {
 		}
 	}
 
-	private void expandProfiles(String server, Vector<IProfile> rules) {
+	private void expandProfiles(String server, Vector<IProfile> serverRules) {
 		boolean allSimple = true;
 		do {
 			allSimple = true;
-			for (int j = 0; j < rules.size(); j++) {
-				if (!rules.elementAt(j).isSingleton()) {
-					IProfile prof = rules.elementAt(j);
+			for (int j = 0; j < serverRules.size(); j++) {
+				if (!serverRules.elementAt(j).isSingleton()) {
+					IProfile prof = serverRules.elementAt(j);
 					Vector<IProfile> units = prof.getUnits(server, data);
 					if (units != null) {
-						rules.removeElementAt(j);
-						rules.addAll(j, units);
-						j += units.size() - 1;
+						serverRules.removeElementAt(j);
+						serverRules.addAll(j, units);
+						j = serverRules.size();
 						allSimple = false;
 					}
 				}
@@ -99,6 +99,21 @@ public class NetworkModel {
 	public int getUnitCount(String server) {
 		return this.rules.get(server).size();
 	}
+	
+	public void auditDummy(String server, OutputStream out, InputStream in) {
+		String line = getAction("audit", server);
+		System.out.println(line);
+	}
+
+	public void dryrunDummy(String server, OutputStream out, InputStream in) {
+		String line = getAction("dryrun", server);
+		System.out.println(line);
+	}
+
+	public void configDummy(String server, OutputStream out, InputStream in) {
+		String line = getAction("config", server);
+		System.out.println(line);
+	}
 
 	public void auditServer(String server, OutputStream out, InputStream in) {
 		String line = getAction("audit", server);
@@ -123,7 +138,7 @@ public class NetworkModel {
 
 	public void auditServerBlock(String server, OutputStream out, InputStream in) {
 		String line = getAction("audit", server);
-		System.out.println(line);
+		//System.out.println(line);
 		ManageExec exec = new ManageExec("testlogin", data.getServerUser(server), data.getServerIP(server),
 				data.getServerPort(server), line, out);
 		exec.manageBlock();
@@ -139,7 +154,7 @@ public class NetworkModel {
 
 	public void configServerBlock(String server, OutputStream out, InputStream in) {
 		String line = getAction("config", server);
-		System.out.println(line);
+		//System.out.println(line);
 		ManageExec exec = new ManageExec("testlogin", data.getServerUser(server), data.getServerIP(server),
 				data.getServerPort(server), line, out);
 		exec.manageBlock();

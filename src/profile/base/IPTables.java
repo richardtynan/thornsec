@@ -109,15 +109,16 @@ public class IPTables extends AProfile {
 		iptxslt += "  </xsl:template>\n";
 		iptxslt += "\n";
 		iptxslt += "</xsl:transform>";
-	
+
 		vec.addElement(new FileUnit("iptables_xlst", "proceed", iptxslt, "/etc/iptables/iptables.xslt"));
 
-		//IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("-j DROP");
-		//IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("-j LOG --log-prefix \\\"iptin: \\\"");
-		//IPTablesConf.getInstance(server, data.getLabel()).addFilterForward("-j DROP");
-		//IPTablesConf.getInstance(server, data.getLabel()).addFilterForward("-j LOG --log-prefix \\\"iptfwd: \\\"");
-		//IPTablesConf.getInstance(server, data.getLabel()).addFilterOutput("-j DROP");
-		//IPTablesConf.getInstance(server, data.getLabel()).addFilterOutput("-j LOG --log-prefix \\\"iptout: \\\"");
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("iptables_in_log",
+				"-j LOG --log-prefix \\\"iptin: \\\""));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterForward("iptables_fwd_log",
+				"-j LOG --log-prefix \\\"iptfwd: \\\""));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterOutput("iptables_out_log",
+				"-j LOG --log-prefix \\\"iptout: \\\""));
+
 		return vec;
 	}
 

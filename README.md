@@ -25,7 +25,7 @@ Learn how to use the [system](doc/user.md) to conduct audits and to configure sy
 # Want to contribute?
 
 1. What command should a sysadmin run to check if there is an issue?
-2. What should the ouput of that command be if the test is passed or failed?
+2. What should the output of that command be if the test is passed or failed?
 3. Bonus points: what command should a sysadmin run to resolve the issue?
 
 If you can answer the first 2 questions then get in touch or write the appropriate test for inclusion into the codebase. If you can answer question 3 thats even better!

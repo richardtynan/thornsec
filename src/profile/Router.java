@@ -30,6 +30,10 @@ public class Router extends AProfile {
 		vec.addElement(
 				IPTablesConf.getInstance(server, data.getLabel()).addNatPostrouting("router_nat", "-j MASQUERADE"));
 
+		// Subnets
+		Subnets subnets = new Subnets();
+		vec.addAll(subnets.getUnits(server, data));
+
 		// DHCP
 		DHCP dhcp = new DHCP();
 		vec.addAll(dhcp.getUnits(server, data));
@@ -41,10 +45,6 @@ public class Router extends AProfile {
 		// PKI
 		PKI pki = new PKI();
 		vec.addAll(pki.getUnits(server, data));
-
-		// Subnets
-		Subnets subnets = new Subnets();
-		vec.addAll(subnets.getUnits(server, data));
 
 		return vec;
 	}
