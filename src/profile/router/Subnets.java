@@ -32,14 +32,18 @@ public class Subnets extends AProfile {
 			vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterForward(devs[i] + "_ipt_dst",
 					"-d " + Router.getNet(server, data) + "." + subnet + ".2 -j " + devs[i]));
 
-			vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i] + "_ipt_chain", devs[i],
+			vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addChain(devs[i] + "_ipt_chain", "filter", devs[i]));
+			vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i] + "_ipt_chain_accept", devs[i],
 					"-j ACCEPT"));
 			vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i] + "_ipt_chain_log", devs[i],
 					"-j LOG --log-prefix \\\"iptfwd-" + devs[i] + ": \\\""));
 			
+			vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addChain(devs[i] + "_ipt_int_chain", "filter", devs[i] + "_int"));
 			vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i] + "_ipt_int", devs[i],
 					"-i " + Router.getIntIface(server, data) + " -o " + Router.getIntIface(server, data) + " -j "
 							+ devs[i] + "_int"));
+			
+			vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addChain(devs[i] + "_ipt_ext_chain", "filter", devs[i] + "_ext"));
 			vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter(devs[i] + "_ipt_ext1", devs[i],
 					"-i " + Router.getIntIface(server, data) + " -o " + Router.getExtIface(server, data) + " -j "
 							+ devs[i] + "_ext"));

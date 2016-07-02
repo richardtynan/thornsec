@@ -12,6 +12,8 @@ public class Test {
 	public static void main(String[] args) throws Exception {
 		String text = new String(Files.readAllBytes(Paths.get("/Users/richie/Desktop/orgsec.json")),
 				StandardCharsets.UTF_8);
+		//String text = new String(Files.readAllBytes(Paths.get("/Volumes/scripts2016/orgsec.json")),
+			//	StandardCharsets.UTF_8);
 
 		OrgsecData data = new OrgsecData();
 		data.read(text);
@@ -19,9 +21,12 @@ public class Test {
 		OrgsecModel model = new OrgsecModel();
 		model.setData(data);
 
+		// new FullFrame(model);
+
 		//model.getNetworkModel("home").auditDummy("router", System.out, System.in);
+		model.getNetworkModel("home").auditServerBlock("router", System.out, System.in);
 		//model.getNetworkModel("home").configServerBlock("router", System.out, System.in);
-		model.getNetworkModel("pi").auditServerBlock("router", System.out, System.in);
+		//model.getNetworkModel("pi").auditServerBlock("router", System.out, System.in);
 	}
 
 }

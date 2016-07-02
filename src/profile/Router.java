@@ -45,6 +45,15 @@ public class Router extends AProfile {
 		// PKI
 		PKI pki = new PKI();
 		vec.addAll(pki.getUnits(server, data));
+		
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterOutput("base_debian1", "-o " + Router.getExtIface(server, data) + " -d 78.129.164.123 -p tcp --dport 80 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterOutput("base_debian2", "-o " + Router.getExtIface(server, data) + " -d 212.211.132.250 -p tcp --dport 80 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterOutput("base_debian3", "-o " + Router.getExtIface(server, data) + " -d 212.211.132.32 -p tcp --dport 80 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterOutput("base_debian4", "-o " + Router.getExtIface(server, data) + " -d 195.20.242.89 -p tcp --dport 80 -j ACCEPT"));
 
 		return vec;
 	}
@@ -71,6 +80,14 @@ public class Router extends AProfile {
 
 	public static String getPKI(String server, INetworkData data) {
 		return getProperty("pki", "router", server, data);
+	}
+	
+	public static String getDNS(String server, INetworkData data) {
+		return getProperty("dns", "router", server, data);
+	}
+	
+	public static String getExtDHCP(String server, INetworkData data) {
+		return getProperty("extdhcp", "router", server, data);
 	}
 
 }

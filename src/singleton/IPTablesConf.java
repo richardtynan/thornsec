@@ -33,12 +33,27 @@ public class IPTablesConf extends AProfile {
 		return add(name, "nat", "POSTROUTING", rule);
 	}
 
+	public SimpleUnit addChain(String name, String table, String chain) {
+		Hashtable<String, Vector<String>> tab = tables.get(table);
+		if (tab == null) {
+			tables.put(table, new Hashtable<>());
+		}
+		tab = tables.get(table);
+		Vector<String> ch = tab.get(chain);
+		if (ch == null) {
+			tab.put(chain, new Vector<>());
+		}
+		return new SimpleUnit(name, "proceed", "echo \\\"handled by singleton\\\";",
+				"cat /etc/iptables/iptables.conf | iptables-xml | xsltproc --stringparam table " + table
+						+ " /etc/iptables/iptables.xslt - | " + "grep \":" + chain + " -\"",
+				":" + chain + " - [0:0]", "pass");
+	}
+
 	private SimpleUnit add(String name, String table, String chain, String rule) {
-		System.out.println("add " + name + " " + table + " " + chain + " " + rule);
 		this.getChain(table, chain).add(rule);
 		return new SimpleUnit(name, "proceed", "echo \\\"handled by singleton\\\";",
-				"cat /etc/iptables/iptables.conf | iptables-xml | " + "xsltproc --stringparam table " + table
-						+ " /etc/iptables/iptables.xslt - | " + "grep " + chain + " | grep \""
+				"cat /etc/iptables/iptables.conf | iptables-xml | xsltproc --stringparam table " + table
+						+ " /etc/iptables/iptables.xslt - | " + "grep \"" + chain + " "
 						+ rule.replaceAll("-", "\\\\-") + "\"",
 				"-A " + chain + " " + rule, "pass");
 	}
@@ -95,15 +110,6 @@ public class IPTablesConf extends AProfile {
 	}
 
 	private Vector<String> getChain(String table, String chain) {
-		Hashtable<String, Vector<String>> tab = tables.get(table);
-		if (tab == null) {
-			tables.put(table, new Hashtable<>());
-		}
-		tab = tables.get(table);
-		Vector<String> ch = tab.get(chain);
-		if (ch == null) {
-			tab.put(chain, new Vector<>());
-		}
 		return tables.get(table).get(chain);
 	}
 
@@ -114,6 +120,20 @@ public class IPTablesConf extends AProfile {
 	private IPTablesConf() {
 		super("iptables_conf");
 		this.tables = new Hashtable<>();
+
+		tables.put("nat", new Hashtable<>());
+		Hashtable<String, Vector<String>> tab = tables.get("nat");
+		tab.put("PREROUTING", new Vector<>());
+		tab.put("INPUT", new Vector<>());
+		tab.put("OUTPUT", new Vector<>());
+		tab.put("POSTROUTING", new Vector<>());
+
+		tables.put("filter", new Hashtable<>());
+		tab = tables.get("filter");
+		tab.put("INPUT", new Vector<>());
+		tab.put("FORWARD", new Vector<>());
+		tab.put("OUTPUT", new Vector<>());
+
 	}
 
 	public static IPTablesConf getInstance(String server, String network) {
