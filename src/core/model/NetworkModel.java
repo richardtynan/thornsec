@@ -138,7 +138,7 @@ public class NetworkModel {
 
 	public void auditServerBlock(String server, OutputStream out, InputStream in) {
 		String line = getAction("audit", server);
-		System.out.println(line);
+		//System.out.println(line);
 		ManageExec exec = new ManageExec("testlogin", data.getServerUser(server), data.getServerIP(server),
 				data.getServerPort(server), line, out);
 		exec.manageBlock();

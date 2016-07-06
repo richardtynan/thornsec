@@ -54,6 +54,15 @@ public class Router extends AProfile {
 				.addFilterOutput("base_debian3", "-o " + Router.getExtIface(server, data) + " -d 212.211.132.32 -p tcp --dport 80 -j ACCEPT"));
 		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
 				.addFilterOutput("base_debian4", "-o " + Router.getExtIface(server, data) + " -d 195.20.242.89 -p tcp --dport 80 -j ACCEPT"));
+		
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterInput("base_debian1", "-i " + Router.getExtIface(server, data) + " -s 78.129.164.123 -p tcp --sport 80 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterInput("base_debian2", "-i " + Router.getExtIface(server, data) + " -s 212.211.132.250 -p tcp --sport 80 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterInput("base_debian3", "-i " + Router.getExtIface(server, data) + " -s 212.211.132.32 -p tcp --sport 80 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel())
+				.addFilterInput("base_debian4", "-i " + Router.getExtIface(server, data) + " -s 195.20.242.89 -p tcp --sport 80 -j ACCEPT"));
 
 		return vec;
 	}
@@ -88,6 +97,10 @@ public class Router extends AProfile {
 	
 	public static String getExtDHCP(String server, INetworkData data) {
 		return getProperty("extdhcp", "router", server, data);
+	}
+	
+	public static String getFwd(String server, INetworkData data) {
+		return getProperties("fwd", "router", server, data);
 	}
 
 }

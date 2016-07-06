@@ -53,8 +53,10 @@ public class NetConf extends AProfile {
 	}
 
 	public SimpleUnit addPPPIface(String name, String iface) {
-		String net = "auto " + iface + "\n";
-		net += "iface " + iface + " inet ppp";
+		String net = "auto dsl-provider\n";
+		net += "iface dsl-provider inet ppp\n";
+		net += "pre-up /sbin/ifconfig " + iface + " up\n";
+		net += "provider provider";
 		strings.add(net);
 		return new SimpleUnit(name, "proceed", "echo \\\"handled by singleton\\\";",
 				"grep -B1 \"" + net.substring(net.indexOf('\n') + 1, net.length()) + "\" /etc/network/interfaces;", net,

@@ -4,16 +4,16 @@ import java.util.Vector;
 
 import core.iface.INetworkData;
 import core.iface.IProfile;
-import core.unit.SimpleUnit;
+import core.profile.AStructuredProfile;
 import profile.Router;
 import singleton.NetConf;
 import unit.pkg.InstalledUnit;
 import unit.pkg.RunningUnit;
 
-public class ExtPPP extends SimpleUnit {
+public class ExtPPP extends AStructuredProfile {
 
-	public String getLabel() {
-		return "ext_ppp";
+	public ExtPPP() {
+		super("ext_ppp");
 	}
 
 	public Vector<IProfile> getInstalled(String server, INetworkData model) {
@@ -24,10 +24,10 @@ public class ExtPPP extends SimpleUnit {
 
 	public Vector<IProfile> getPersistent(String server, INetworkData data) {
 		Vector<IProfile> vec = new Vector<IProfile>();
-		String ppp = "pre-up /sbin/ifconfig " + Router.getExtIface(server, data) + " up\n";
-		ppp += "provider provider";
-		vec.addElement(
-				NetConf.getInstance(server, data.getLabel()).addStaticIface("ext_ppp_iface", "dsl-provider", ppp));
+
+		vec.addElement(NetConf.getInstance(server, data.getLabel()).addPPPIface("ext_ppp_iface",
+				Router.getExtIface(server, data)));
+
 		return vec;
 	}
 

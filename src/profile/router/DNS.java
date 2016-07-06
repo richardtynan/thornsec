@@ -94,7 +94,9 @@ public class DNS extends AStructuredProfile {
 			rev += Router.getNet(server, data) + "." + subnet + ".2 IN PTR " + devs[i] + "."
 					+ Base.getDomain(server, data) + ".\n";
 		}
-
+		
+		fwd += Router.getFwd(server, data);
+		
 		rule.addChild(new ChildFileUnit("dns_persist", "dns_fwd_persist", "dns_installed", fwd.trim(),
 				"/etc/bind/db." + Base.getDomain(server, data)));
 		rule.addChild(new ChildFileUnit("dns_persist", "dns_rev_persist", "dns_installed", rev.trim(),
@@ -118,13 +120,18 @@ public class DNS extends AStructuredProfile {
 	public Vector<IProfile> getIpt(String server, INetworkData data) {
 		Vector<IProfile> vec = new Vector<IProfile>();
 
-		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("dns_ipt_in",
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("dns_ipt_in_udp",
 				"-i " + Router.getIntIface(server, data) + " -p udp --dport 53 -j ACCEPT"));
-		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterOutput("dns_ipt_out",
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterOutput("dns_ipt_out_udp",
 				"-o " + Router.getIntIface(server, data) + " -p udp --sport 53 -j ACCEPT"));
+		
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("dns_ipt_in_tcp",
+				"-i " + Router.getIntIface(server, data) + " -p tcp --dport 53 -j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterOutput("dns_ipt_out_tcp",
+				"-o " + Router.getIntIface(server, data) + " -p tcp --sport 53 -j ACCEPT"));
 
 		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addChain("dns_ipt_chain", "filter", "dnsd"));
-		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter("dns_ext", "dnsd", "-j ACCEPT"));
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter("dns_ext", "dnsd", "-j DROP"));
 		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilter("dns_ext_log", "dnsd",
 				"-j LOG --log-prefix \\\"ipt-dnsd: \\\""));
 		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("dns_ext_in",

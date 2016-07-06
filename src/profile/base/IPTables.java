@@ -135,10 +135,21 @@ public class IPTables extends AProfile {
 
 		vec.addElement(new FileUnit("iptables_xlst", "proceed", iptxslt, "/etc/iptables/iptables.xslt"));
 
+		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("iptables_in_drop", "-j DROP"));
 		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("iptables_in_log",
 				"-j LOG --log-prefix \\\"iptin: \\\""));
+		vec.addElement(
+				IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("iptables_in_tcp", "-p tcp -j DROP"));
+		vec.addElement(
+				IPTablesConf.getInstance(server, data.getLabel()).addFilterInput("iptables_in_udp", "-p udp -j DROP"));
+
+		vec.addElement(
+				IPTablesConf.getInstance(server, data.getLabel()).addFilterForward("iptables_fwd_drop", "-j DROP"));
 		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterForward("iptables_fwd_log",
 				"-j LOG --log-prefix \\\"iptfwd: \\\""));
+
+		vec.addElement(
+				IPTablesConf.getInstance(server, data.getLabel()).addFilterOutput("iptables_out_drop", "-j DROP"));
 		vec.addElement(IPTablesConf.getInstance(server, data.getLabel()).addFilterOutput("iptables_out_log",
 				"-j LOG --log-prefix \\\"iptout: \\\""));
 

@@ -17,6 +17,7 @@ public class SimpleUnit extends ComplexUnit {
 	protected String getAudit() {
 		String auditString = "out=$(" + super.getAudit() + ");\n";
 		auditString += "test=\"" + getTest() + "\";\n";
+		
 		if (getResult().equals("fail"))
 			auditString += "if [ \"$out\" = \"$test\" ] ; then\n";
 		else

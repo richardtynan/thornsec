@@ -57,6 +57,10 @@ public class Base extends AProfile {
 	public static String getIP(String server, INetworkData data) {
 		return getProperty("ip", "base", server, data);
 	}
+	
+	public static String getSubnet(String server, INetworkData data) {
+		return getProperty("subnet", "base", server, data);
+	}
 
 	public static String getUser(String server, INetworkData data) {
 		return getProperty("user", "base", server, data);
