@@ -1,9 +1,13 @@
 package core.data;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import core.iface.INetworkData;
 
@@ -18,26 +22,37 @@ public class NetworkData extends AData implements INetworkData {
 	}
 
 	public void read(JSONObject config) {
-		JSONObject jsonservers = (JSONObject) config.get("servers");
-		servers = new HashMap<String, ServerData>();
-		Iterator<?> serverIter = jsonservers.keySet().iterator();
-		while (serverIter.hasNext()) {
-			String key = (String) serverIter.next();
-			ServerData net = new ServerData(key);
-			net.read((JSONObject) jsonservers.get(key));
-			servers.put(key, net);
-		}
+		String include = (String) config.get("include");
+		if (include != null) {
+			try {
+				String text = new String(Files.readAllBytes(Paths.get(include)), StandardCharsets.UTF_8);
+				JSONParser parser = new JSONParser();
+				JSONObject inc = (JSONObject) parser.parse(text);
+				this.read(inc);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			JSONObject jsonservers = (JSONObject) config.get("servers");
+			servers = new HashMap<String, ServerData>();
+			Iterator<?> serverIter = jsonservers.keySet().iterator();
+			while (serverIter.hasNext()) {
+				String key = (String) serverIter.next();
+				ServerData net = new ServerData(key);
+				net.read((JSONObject) jsonservers.get(key));
+				servers.put(key, net);
+			}
 
-		JSONObject jsondevices = (JSONObject) config.get("devices");
-		devices = new HashMap<String, DeviceData>();
-		Iterator<?> deviceIter = jsondevices.keySet().iterator();
-		while (deviceIter.hasNext()) {
-			String key = (String) deviceIter.next();
-			DeviceData net = new DeviceData(key);
-			net.read((JSONObject) jsondevices.get(key));
-			devices.put(key, net);
+			JSONObject jsondevices = (JSONObject) config.get("devices");
+			devices = new HashMap<String, DeviceData>();
+			Iterator<?> deviceIter = jsondevices.keySet().iterator();
+			while (deviceIter.hasNext()) {
+				String key = (String) deviceIter.next();
+				DeviceData net = new DeviceData(key);
+				net.read((JSONObject) jsondevices.get(key));
+				devices.put(key, net);
+			}
 		}
-
 	}
 
 	public String[] getServerLabels() {
@@ -95,7 +110,7 @@ public class NetworkData extends AData implements INetworkData {
 	public String getServerPort(String server) {
 		return servers.get(server).getPort();
 	}
-	
+
 	public String getServerUpdate(String server) {
 		return servers.get(server).getUpdate();
 	}

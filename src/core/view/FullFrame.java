@@ -33,10 +33,10 @@ public class FullFrame {
 		}
 
 		JFrame frame = new JFrame("orgsec");
-		frame.pack();
 		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(jtp);
+		frame.pack();
 		frame.setVisible(true);
 	}
 
