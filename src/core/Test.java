@@ -20,8 +20,8 @@ public class Test {
 
 		//model.getNetworkModel("home").auditDummy("router", System.out, System.in);
 		//model.getNetworkModel("home").auditServerBlock("router", System.out, System.in);
-		//model.getNetworkModel("home").configServerBlock("router", System.out, System.in);
-		model.getNetworkModel("pi").auditServerBlock("router", System.out, System.in);
+		model.getNetworkModel("home").configServerBlock("router", System.out, System.in);
+		//model.getNetworkModel("pi").auditServerBlock("router", System.out, System.in);
 		//model.getNetworkModel("pi").configServerBlock("router", System.out, System.in);
 		//model.getNetworkModel("pi").auditDummy("router", System.out, System.in);
 }
